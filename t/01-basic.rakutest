@@ -1,0 +1,6 @@
+use Test;
+use Functional::Stack;
+
+pass "replace me";
+
+done-testing;
