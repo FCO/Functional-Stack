@@ -8,6 +8,14 @@ my $both-default = True;
 has Functional::LinkedList $.list;
 has Bool                   $.both = $both-default;
 
+multi method new(Functional::LinkedList $list) {
+  $.bless: :$list
+}
+
+multi method new(*@list) {
+  $.new: Functional::LinkedList.new: @list
+}
+
 multi method mutate(::?CLASS:U: &block) { self.new.mutate: &block }
 
 multi method mutate(::?CLASS:D: &block) {
@@ -32,12 +40,13 @@ multi method size(::?CLASS:D:) { $!list.elems }
 method elems { $.size }
 
 method push(\value) {
-  self!mutable: self.new(:list($!list.unshift(value).head)), value
+  my :($list, $) := $!list.unshift(value);
+  self!mutable: self.new($list), value
 }
 
 method pop {
   my ($list, \value) = $!list.shift: :both;
-  self!mutable: $.new(:$list), value
+  self!mutable: $.new($list), value
 }
 
 method peek { $!list.value }
