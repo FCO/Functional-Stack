@@ -1,6 +1,7 @@
 Revision history for Functional-Stack
 
 {{$NEXT}}
+    - fix bug
 
 0.0.2  2024-07-07T02:30:20+01:00
     - fix bug

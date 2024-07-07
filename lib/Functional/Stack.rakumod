@@ -9,7 +9,7 @@ has Functional::LinkedList $.list;
 has Bool                   $.both = $both-default;
 
 multi method new(Functional::LinkedList $list) {
-  $.bless: :$list
+  self.bless: :$list
 }
 
 multi method new(*@list) {
@@ -38,14 +38,15 @@ method !mutable($node, $value, Bool :$both = self.defined ?? $!both !! $both-def
 multi method size(::?CLASS:U:) { 0 }
 multi method size(::?CLASS:D:) { $!list.elems }
 method elems { $.size }
+method Bool { ?$.elems }
 
 method push(\value) {
-  my :($list, $) := $!list.unshift(value);
+  my :($list, $) := ($.defined ?? $!list !! Functional::LinkedList).unshift(value);
   self!mutable: self.new($list), value
 }
 
 method pop {
-  my ($list, \value) = $!list.shift: :both;
+  my ($list, \value) = ($.defined ?? $!list !! Functional::LinkedList).shift: :both;
   self!mutable: $.new($list), value
 }
 
